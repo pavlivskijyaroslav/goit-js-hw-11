@@ -34,12 +34,12 @@ export function createGallery(images) {
     })
     .join('');
   userList.insertAdjacentHTML('beforeend', markup);
-  new SimpleLightbox('.gallery a', {
+  const lightbox = new SimpleLightbox('.gallery a', {
     captions: true,
     captionsData: 'alt',
     captionDelay: 250,
   });
-  SimpleLightbox.refresh();
+  lightbox.refresh();
 }
 export function clearGallery() {
   if (userList && userList.children.length > 0) {
