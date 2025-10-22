@@ -1,8 +1,9 @@
 import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-
+import * as renderFunction from './render-functions.js';
 function getImagesByQuery(query) {
+  renderFunction.showLoader();
   return axios
     .get('https://pixabay.com/api/', {
       params: {
@@ -19,6 +20,11 @@ function getImagesByQuery(query) {
         return images;
       } else {
         iziToast.show({
+          close: false,
+          progressBar: false,
+          timeout: 3000,
+          pauseOnHover: false,
+          position: 'topRight',
           color: 'red',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
@@ -27,6 +33,9 @@ function getImagesByQuery(query) {
     })
     .catch(error => {
       console.log(error);
+    })
+    .finally(() => {
+      renderFunction.hideLoader();
     });
 }
 export { getImagesByQuery };
