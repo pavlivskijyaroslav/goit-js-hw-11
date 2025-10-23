@@ -3,8 +3,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const userList = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
-// const userListItem = document.querySelector('.userListItem');
-// const searchBtn = document.querySelector("button[type='submit']");
 export function createGallery(images) {
   const markup = images
     .map(images => {

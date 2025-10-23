@@ -1,9 +1,9 @@
 import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import * as renderFunction from './render-functions.js';
+// import * as renderFunction from './render-functions.js';
 function getImagesByQuery(query) {
-  renderFunction.showLoader();
+  // renderFunction.showLoader();
   return axios
     .get('https://pixabay.com/api/', {
       params: {
@@ -17,10 +17,8 @@ function getImagesByQuery(query) {
     })
     .then(response => {
       const images = response.data.hits;
-      if (images.length > 0) {
-        return images;
-      } else {
-        iziToast.show({
+      if (!images || images.length === 0) {
+        iziToast.error({
           close: false,
           progressBar: false,
           timeout: 3000,
@@ -30,13 +28,24 @@ function getImagesByQuery(query) {
           message:
             'Sorry, there are no images matching your search query. Please try again!',
         });
+        return [];
       }
+      return images;
     })
     .catch(error => {
       console.log(error);
-    })
-    .finally(() => {
-      renderFunction.hideLoader();
+      iziToast.error({
+        close: false,
+        progressBar: false,
+        timeout: 3000,
+        pauseOnHover: false,
+        position: 'topRight',
+        message: 'Something went wrong. Please try again later.',
+      });
+      return [];
     });
+  // .finally(() => {
+  //   renderFunction.hideLoader();
+  // });
 }
 export { getImagesByQuery };
